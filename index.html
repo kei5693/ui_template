@@ -19,80 +19,92 @@
 <body>
 
   <div id="wrap">
-    <div>
-      <h2>Bottom Sheet Popup</h2>
+    <div id="content">
+      <div>
+        <h2>Bottom Sheet Popup</h2>
 
-      <div class="btn_grid">
-        <button type="button" class="layer_button" data-popup-name='#popup_1'>기본</button>
-        <button type="button" class="layer_button" data-popup-name='#popup_2'>풀페이지</button>
-        <button type="button" class="layer_button" data-popup-name='#popup_3'>버튼없음</button>
-        <button type="button" class="layer_button" data-popup-name='#popup_4' data-popup-height='70'>높이값(%)</button>
-        <button type="button" class="layer_button" data-popup-name='#popup_5'>높이값(auto)</button>
-        <button type="button" class="layer_button" data-popup-name='#popup_6'>다이얼로그(타이틀, 서브)</button>
-        <button type="button" class="layer_button" data-popup-name='#popup_7'>다이얼로그(서브)</button>
-        <button type="button" class="layer_button" data-popup-name='#popup_8'>다이얼로그 장문(타이틀, 서브)</button>
-        <button type="button" class="layer_button" data-popup-name='#popup_9'>다이얼로그 장문(서브)</button>
+        <div class="btn_grid">
+          <button type="button" class="layer_button" data-popup-name='#popup_1'>기본</button>
+          <button type="button" class="layer_button" data-popup-name='#popup_2'>풀페이지</button>
+          <button type="button" class="layer_button" data-popup-name='#popup_3'>버튼없음</button>
+          <button type="button" class="layer_button" data-popup-name='#popup_4' data-popup-height='70'>높이값(%)</button>
+          <button type="button" class="layer_button" data-popup-name='#popup_5'>높이값(auto)</button>
+          <button type="button" class="layer_button" data-popup-name='#popup_6'>다이얼로그(타이틀, 서브)</button>
+          <button type="button" class="layer_button" data-popup-name='#popup_7'>다이얼로그(서브)</button>
+          <button type="button" class="layer_button" data-popup-name='#popup_8'>다이얼로그 장문(타이틀, 서브)</button>
+          <button type="button" class="layer_button" data-popup-name='#popup_9'>다이얼로그 장문(서브)</button>
+        </div>
       </div>
-    </div>
 
-    <div>
-      <h2>Toast Popup</h2>
-      <div class="btn_grid">
-        <button type="button" class="toast_button" data-popup-name='#Toast'>토스트</button>
+      <div>
+        <h2>Toast Popup</h2>
+        <div class="btn_grid">
+          <button type="button" class="toast_button" data-popup-name='#Toast'>토스트</button>
+        </div>
       </div>
-    </div>
 
-    <div>
-      <h2>Marquee</h2>
-      <div class="marquee_element">
-        <p>글자가 계속 돌고 있습니다. 😃</p>
+      <div>
+        <h2>Marquee</h2>
+        <div class="marquee_element">
+          <p>글자가 계속 돌고 있습니다. 😃</p>
+        </div>
       </div>
-    </div>
 
-    <div>
-      <h2>Design Select</h2>
-      <div class="design_select">
-        <p class="selected"><span>등록순</span></p>
-        <ul class="optionList">
-          <li class="select"><span>등록순</span></li>
-          <li><span>인기순</span></li>
-          <li><span>나의 댓글</span></li>
+      <div>
+        <h2>Design Select Box</h2>
+        <div class="design_select">
+          <p class="selected"><span>등록순</span></p>
+          <ul class="optionList">
+            <li class="select"><span>등록순</span></li>
+            <li><span>인기순</span></li>
+            <li><span>나의 댓글</span></li>
+          </ul>
+        </div>
+        <div class="design_select">
+          <p class="selected"><span>인기순</span></p>
+          <ul class="optionList">
+            <li class="select"><span>등록순</span></li>
+            <li><span>인기순</span></li>
+            <li><span>나의 댓글</span></li>
+          </ul>
+        </div>
+      </div>
+
+      <div>
+        <h2>Design Input Radio</h2>
+        <ul class="design_radio">
+          <li><input type="radio" name="rdo" id="rdo1"><label for="rdo1">수정</label></li>
+          <li><input type="radio" name="rdo" id="rdo2"><label for="rdo2">삭제</label></li>
         </ul>
       </div>
-      <div class="design_select">
-        <p class="selected"><span>인기순</span></p>
-        <ul class="optionList">
-          <li class="select"><span>등록순</span></li>
-          <li><span>인기순</span></li>
-          <li><span>나의 댓글</span></li>
-        </ul>
+
+      <div>
+        <h2>Design Input Checkbox</h2>
+        <span class="design_checkbox">
+          <input type="checkbox" id="check03" checked=""><label for="check03"><span>가이드</span></label>
+        </span>
+      </div>
+
+      <div>
+        <h2>Animation Input Checkbox</h2>
+        <span class="inpchk_ani">
+          <input type="checkbox" id="inp01" /><label for="inp01"><span>toggle</span></label>
+        </span>
+      </div>
+
+      <!-- <div>
+        <h2>Lottie player</h2>
+        <lottie-player autoplay loop mode="normal" src="./json/confetti.json"></lottie-player>
+      </div> -->
+
+      <div>
+        <h2>CountDown Animation</h2>
+        <div class="btn_grid">
+          <button type="button" onClick="common.animationCount()">Start</button>
+        </div>
+        <div class="animation_count"><p></p></div>
       </div>
     </div>
-
-    <div>
-      <h2>Design input radio</h2>
-      <ul class="design_radio">
-        <li><input type="radio" name="rdo" id="rdo1"><label for="rdo1">수정</label></li>
-        <li><input type="radio" name="rdo" id="rdo2"><label for="rdo2">삭제</label></li>
-      </ul>
-    </div>
-
-    <!-- <div>
-      <h2>Lottie player</h2>
-      <lottie-player autoplay loop mode="normal" src="./json/confetti.json"></lottie-player>
-    </div> -->
-
-    <div>
-      <h2>CountDown Animation</h2>
-      <div class="btn_grid">
-        <button type="button" onClick="common.animationCount()">Start</button>
-      </div>
-      <div class="animation_count"><p></p></div>
-    </div>
-
-
-
-
 
     <!-- 기본 -->
     <div id="popup_1" class="modal_layer_popup">

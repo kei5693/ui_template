@@ -3,12 +3,14 @@
 #wrap {
   padding: 10px 20px 200px;
 }
-#wrap > div > h2 {
+#wrap #content > div > h2 {
   margin-bottom: 10px;
-  font-size: 30px;
+  font-size: 24px;
 }
-#wrap > div + div {
-  margin-top: 30px;
+#wrap #content > div + div {
+  margin-top: 40px;
+  padding-top: 39px;
+  border-top: 2px dashed #000;
 }
 #wrap .btn_grid {
   display: flex;
@@ -21,17 +23,6 @@
   background: #000;
   color: #fff;
 }
-#wrap .marquee_element {
-  overflow: hidden;
-  background: #000;
-  display: flex;
-  align-items: center;
-  height: 36px;
-}
-#wrap .marquee_element p {
-  font-size: 13px;
-  font-weight: 800;
-  line-height: 1;
-  color: #fff;
-  white-space: nowrap;
+#wrap .design_select + .design_select {
+  margin-left: 10px;
 }

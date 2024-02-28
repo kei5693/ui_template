@@ -310,38 +310,38 @@ let common = {
 		});
 	},
 	// 애니메이션 카운트
-	animationCount: function (value = 3) {
-		if (document.querySelector('.animation_count') == null) return;
+	animationCount: function(value = 3) {
+    const aniCount = document.querySelector('.animation_count');
+    if (!aniCount) return;
 
-		const aniCount = document.querySelector('.animation_count');
-		const aniNumber = aniCount.querySelector(':scope > p');
+    const aniNumber = aniCount.querySelector(':scope > p');
+		// class active일 때 css로 animation 동작
+    startAni();
 
-		startAni();
-
-		aniNumber.addEventListener("animationend", () => {
+		// 애니메이션이 끝난 후 숫자 감산 후 애니메이션 반복 1이 되면 사라짐
+    aniNumber.addEventListener("animationend", () => {
 			if (value > 1) {
 				value--;
-
 				aniNumber.innerHTML = value;
 				aniNumber.classList.remove('active');
-
-				setTimeout(() => { aniNumber.classList.add('active') }, 10);
+				setTimeout(() => aniNumber.classList.add('active'), 10);
 			} else if (aniNumber.innerHTML == 1) {
 				endAni();
 			}
-		});
+    });
 
+    function startAni() {
+        aniCount.classList.add('active');
+        aniNumber.classList.add('active');
+        aniNumber.innerHTML = value;
+    }
 
-		function startAni() {
-			aniCount.classList.add('active');
-			aniNumber.classList.add('active');
-			aniNumber.innerHTML = value;
-		}
-		function endAni() {
-			aniCount.classList.remove('active');
-			aniNumber.classList.remove('active');
-		}
+    function endAni() {
+        aniCount.classList.remove('active');
+        aniNumber.classList.remove('active');
+    }
 	},
+
 
 
 

@@ -4,13 +4,17 @@
 
 #wrap {
   padding: 10px 20px 200px;
-  > div {
-    > h2 {
-      margin-bottom: 10px;
-      font-size: 30px;
-    }
-    & + div {
-      margin-top: 30px;
+  #content {
+    > div {
+      > h2 {
+        margin-bottom: 10px;
+        font-size: 24px;
+      }
+      & + div {
+        margin-top: 40px;
+        padding-top: 39px;
+        border-top: 2px dashed #000;
+      }
     }
   }
   .btn_grid {
@@ -24,19 +28,7 @@
       color: #fff;
     }
   }
-  .marquee_element {
-    overflow: hidden;
-    background: #000;
-
-    display: flex;
-    align-items: center;
-    height: 36px;
-    p {
-      font-size: 13px;
-      font-weight: 800;
-      line-height: 1;
-      color: #fff;
-      white-space: nowrap;
-    }
+  .design_select + .design_select {
+    margin-left: 10px;
   }
 }
