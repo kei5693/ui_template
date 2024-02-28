@@ -1,0 +1,42 @@
+@import "animation.css";
+@import "common.css";
+
+
+#wrap {
+  padding: 10px 20px 200px;
+  > div {
+    > h2 {
+      margin-bottom: 10px;
+      font-size: 30px;
+    }
+    & + div {
+      margin-top: 30px;
+    }
+  }
+  .btn_grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    button {
+      padding: 6px 12px;
+      border-radius: 4px;
+      background: #000;
+      color: #fff;
+    }
+  }
+  .marquee_element {
+    overflow: hidden;
+    background: #000;
+
+    display: flex;
+    align-items: center;
+    height: 36px;
+    p {
+      font-size: 13px;
+      font-weight: 800;
+      line-height: 1;
+      color: #fff;
+      white-space: nowrap;
+    }
+  }
+}

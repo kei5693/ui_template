@@ -1,0 +1,85 @@
+@charset "utf-8";
+
+@keyframes opacity_show {
+	0% {opacity: 0;}
+	100% {opacity: 1;}
+}
+@keyframes opacity_hide {
+	0% {opacity: 1;}
+	100% {opacity: 0;}
+}
+
+@keyframes layer_open {
+	0% {top: 40px;}
+	100% {top: 0;}
+}
+@keyframes layer_close {
+	0% {top: 0;}
+	99% {top: 40px;}
+	100% {top: 100%;}
+}
+
+@keyframes bottomToShow {
+	0% {transform: translateY(100%)}
+	50%,
+	70% {transform: translateY(-5%)}
+	100% {transform: translateY(0%)}
+}
+
+@keyframes scrollInfoLeft {
+	0%, 20% {
+		margin-left: -4px;
+		transform: rotate(0deg);
+	}
+	50% {
+		margin-left: -4px;
+	}
+	80%,
+	100% {
+		margin-left: -2px;
+		transform: rotate(45deg);
+	}
+}
+@keyframes scrollInfoRight {
+	0%, 20% {
+		margin-left: 4px;
+		transform: rotate(0deg);
+	}
+	50% {
+		margin-left: 4px;
+	}
+	80%,
+	100% {
+		margin-left: 2px;
+		transform: rotate(-45deg);
+	}
+}
+
+@keyframes arrow_right{
+	0%, 10% {left: 0;}
+	100% {left: 6px;}
+
+}
+
+@keyframes scaleAni {
+	0% {transform: scale(0);}
+	70% {transform: scale(1.2);}
+	100% {transform: scale(1);}
+}
+
+@keyframes countAni {
+	0% {transform: scale(0);}
+	25% {transform: scale(2);}
+	65% {transform: scale(0.7);}
+	90%,
+	100% {transform: scale(1);}
+}
+
+@keyframes mainBannerAni1 {
+	0% {transform: translate(0, 0);}
+	100% {transform: translate(5px, 5px);}
+}
+@keyframes mainBannerAni2 {
+	0% {transform: translate(0, 0);}
+	100% {transform: translate(-5px, -5px);}
+}
