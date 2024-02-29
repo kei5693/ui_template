@@ -8,11 +8,15 @@
     > div {
       > h2 {
         margin-bottom: 10px;
-        font-size: 24px;
+        font-size: 20px;
+      }
+      h3 {
+        margin: 20px 0 10px;
+        font-size: 16px;
       }
       & + div {
-        margin-top: 40px;
-        padding-top: 39px;
+        margin-top: 25px;
+        padding-top: 19px;
         border-top: 2px dashed #000;
       }
     }

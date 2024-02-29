@@ -20,8 +20,9 @@
 
   <div id="wrap">
     <div id="content">
+      <!-- Popup -->
       <div>
-        <h2>Bottom Sheet Popup</h2>
+        <h2>Popup</h2>
 
         <div class="btn_grid">
           <button type="button" class="layer_button" data-popup-name='#popup_1'>기본</button>
@@ -33,25 +34,14 @@
           <button type="button" class="layer_button" data-popup-name='#popup_7'>다이얼로그(서브)</button>
           <button type="button" class="layer_button" data-popup-name='#popup_8'>다이얼로그 장문(타이틀, 서브)</button>
           <button type="button" class="layer_button" data-popup-name='#popup_9'>다이얼로그 장문(서브)</button>
-        </div>
-      </div>
-
-      <div>
-        <h2>Toast Popup</h2>
-        <div class="btn_grid">
           <button type="button" class="toast_button" data-popup-name='#Toast'>토스트</button>
         </div>
       </div>
 
+      <!-- form -->
       <div>
-        <h2>Marquee</h2>
-        <div class="marquee_element">
-          <p>글자가 계속 돌고 있습니다. 😃</p>
-        </div>
-      </div>
+        <h2>Form</h2>
 
-      <div>
-        <h2>Design Select Box</h2>
         <div class="design_select">
           <p class="selected"><span>등록순</span></p>
           <ul class="optionList">
@@ -68,35 +58,34 @@
             <li><span>나의 댓글</span></li>
           </ul>
         </div>
-      </div>
 
-      <div>
-        <h2>Design Input Radio</h2>
+        <h3>Design Input Radio</h3>
         <ul class="design_radio">
           <li><input type="radio" name="rdo" id="rdo1"><label for="rdo1">수정</label></li>
           <li><input type="radio" name="rdo" id="rdo2"><label for="rdo2">삭제</label></li>
         </ul>
-      </div>
 
-      <div>
-        <h2>Design Input Checkbox</h2>
+        <h3>Design Input Checkbox</h3>
         <span class="design_checkbox">
-          <input type="checkbox" id="check03" checked=""><label for="check03"><span>가이드</span></label>
+          <input type="checkbox" id="check03"><label for="check03"><span>가이드</span></label>
         </span>
-      </div>
 
-      <div>
-        <h2>Animation Input Checkbox</h2>
+        <h3>Animation Input Checkbox</h3>
         <span class="inpchk_ani">
           <input type="checkbox" id="inp01" /><label for="inp01"><span>toggle</span></label>
         </span>
       </div>
 
-      <!-- <div>
-        <h2>Lottie player</h2>
-        <lottie-player autoplay loop mode="normal" src="./json/confetti.json"></lottie-player>
-      </div> -->
+      <!-- bullet List -->
+      <div>
+        <h2>bullet List</h2>
+        <ul class="bull_list">
+          <li>Ex ea id tempor cillum dolore et aute quis nostrud</li>
+          <li>Qui officia pariatur eu pariatur proident magna proident esse qui. Veniam consectetur tempor est commodo enim elit sunt. Aute occaecat consequat nisi sint duis nulla veniam in elit enim. Est Lorem commodo minim nulla voluptate ut deserunt excepteur ad.</li>
+        </ul>
+      </div>
 
+      <!-- CountDown Animation -->
       <div>
         <h2>CountDown Animation</h2>
         <div class="btn_grid">
@@ -104,6 +93,104 @@
         </div>
         <div class="animation_count"><p></p></div>
       </div>
+
+      <!-- Marquee -->
+      <div>
+        <h2>Marquee</h2>
+        <div class="marquee_element">
+          <p>글자가 계속 반복됩니다. 속도 조절 가능 😃</p>
+        </div>
+      </div>
+
+      <!-- TabMenu -->
+      <div>
+        <h2>TabMenu</h2>
+        <div class="tab_menu_wrap">
+          <ul class="tab_title">
+            <li><a href="#">1주일</a></li>
+            <li><a href="#">1개월</a></li>
+            <li><a href="#">3개월</a></li>
+          </ul>
+
+          <div class="tab_content">
+            <div>1</div>
+            <div>2</div>
+            <div>3</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- userAgent 체크 -->
+      <div>
+        <h2>UserAgent 체크</h2>
+        <p id="userAgent">isMobile : </p>
+      </div>
+
+      <!-- ClassToggle -->
+      <div id="classToggle">
+        <h2>ClassToggle</h2>
+        <h3>class toggle : 자신</h3>
+        <div class="btn1">
+          <button type="button">1</button>
+          <button type="button">2</button>
+          <button type="button">3</button>
+        </div>
+
+        <h3>class toggle : 부모</h3>
+        <div class="btn2">
+          <button type="button">4</button>
+          <button type="button">5</button>
+          <button type="button">6</button>
+        </div>
+
+        <h3>class toggle: 자신(init, siblings)</h3>
+        <div class="btn3">
+          <button type="button">7</button>
+          <button type="button">8</button>
+          <button type="button">9</button>
+        </div>
+        <div class="btn4">
+          <button type="button">10</button>
+          <button type="button">11</button>
+          <button type="button">12</button>
+        </div>
+      </div>
+
+      <div>
+        <h2></h2>
+      </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      <!-- Lottie player -->
+      <!-- <div>
+        <h2>Lottie player</h2>
+        <lottie-player autoplay loop mode="normal" src="./json/confetti.json"></lottie-player>
+      </div> -->
     </div>
 
     <!-- 기본 -->
@@ -344,7 +431,7 @@
           <!-- footer -->
           <div class="layer_footer">
             <div class="btn_dialog align_right">
-              <button type="button" class="btn_cancel">취소</button>
+              <button type="button">취소</button>
               <button type="button" class="btn_confirm">확인</button>
             </div>
           </div>
@@ -368,7 +455,7 @@
           <!-- footer -->
           <div class="layer_footer">
             <div class="btn_dialog align_right">
-              <button type="button" class="btn_cancel">취소</button>
+              <button type="button">취소</button>
               <button type="button" class="btn_confirm">확인</button>
             </div>
           </div>
@@ -403,7 +490,7 @@
           <!-- footer -->
           <div class="layer_footer">
             <div class="btn_dialog align_right">
-              <button type="button" class="btn_cancel">취소</button>
+              <button type="button">취소</button>
               <button type="button" class="btn_confirm">확인</button>
             </div>
           </div>
@@ -438,7 +525,7 @@
           <!-- footer -->
           <div class="layer_footer">
             <div class="btn_dialog align_right">
-              <button type="button" class="btn_cancel">취소</button>
+              <button type="button">취소</button>
               <button type="button" class="btn_confirm">확인</button>
             </div>
           </div>
@@ -457,6 +544,47 @@
   <script src="./js/common.js"></script>
   <script>
     common.marqueeEvent('.marquee_element', 0.2);
+
+
+
+    const userAgentTarget = document.querySelector('#userAgent');
+    const isMobileResult = common.isMobile();
+    userAgentTarget.textContent += isMobileResult;
+
+
+
+    document.querySelectorAll('#classToggle > .btn1 button').forEach((button) =>{
+      button.addEventListener('click', (e)=>{
+        common.toggleClass(e.target, 'active')
+      });
+    });
+    document.querySelectorAll('#classToggle > .btn2 button').forEach((button) =>{
+      button.addEventListener('click', (e)=>{
+        common.toggleClass(e.target, 'active', 'div')
+      });
+    });
+
+
+
+    common.siblingsToggleClass('#classToggle > .btn3', 'button', 0, 'active')
+    common.siblingsToggleClass('#classToggle > .btn4', 'button', 1, 'active')
   </script>
+  <style>
+    #classToggle button {
+      min-width: 40px;
+      height: 30px;
+
+      margin: 5px;
+      background: #000;
+
+      color: #fff;
+      font-size: 14px;
+      font-weight: 700;
+    }
+    #classToggle > div.active button,
+    #classToggle button.active {
+      background: red;
+    }
+  </style>
 </body>
 </html>

@@ -309,7 +309,7 @@ let common = {
 			});
 		});
 	},
-	// 애니메이션 카운트
+	// 애니메이션 카운트다운
 	animationCount: function(value = 3) {
     const aniCount = document.querySelector('.animation_count');
     if (!aniCount) return;
@@ -341,6 +341,80 @@ let common = {
         aniNumber.classList.remove('active');
     }
 	},
+	// 공통 : 탭메뉴 이벤트
+	tabMenuEvent: function (initIndex) {
+		const tabMenus = document.querySelectorAll('.tab_menu_wrap');
+
+		tabMenus.forEach((tabMenu) => {
+			const tabTitles = tabMenu.querySelectorAll('.tab_title > li');
+			const tabContents = tabMenu.querySelectorAll('.tab_content > div');
+			const initialIndex = initIndex || 0;
+
+			// init
+			setActiveTab(tabTitles, tabContents, initialIndex);
+
+			// 클릭 이벤트
+			tabTitles.forEach((tabTitle, currentIndex) => {
+				tabTitle.addEventListener('click', (e) => {
+					e.preventDefault();
+					setActiveTab(tabTitles, tabContents, currentIndex);
+				});
+			});
+		});
+
+		function setActiveTab(titles, contents, index) {
+			titles.forEach((title, i) => {
+				title.classList.toggle('active', i === index);
+			});
+
+			contents.forEach((content, i) => {
+				content.classList.toggle('active', i === index);
+			});
+		}
+	},
+	// 모바일 체크
+	isMobile: function () {
+		return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+	},
+	// class toggle
+	toggleClass: function (target, className, parent) {
+		parent === undefined ? target.classList.toggle(className) : target.closest(parent).classList.toggle(className);
+	},
+	// 클릭한 대상에 class 추가 이벤트(사용된 부분이 없음)
+	siblingsToggleClass: function(targetSelector, childrenSelector, initialIndex, className) {
+		const targetElements = document.querySelectorAll(targetSelector);
+
+		targetElements.forEach((targetElement) => {
+			const childrenElements = targetElement.querySelectorAll(childrenSelector);
+
+			childrenElements.forEach((childElement, index) => {
+				const isActive = index === initialIndex;
+				// init active
+				toggleClass(childElement, className, isActive);
+
+				// click active
+				childElement.addEventListener('click', (e) => {
+					e.preventDefault();
+					clickToggleClass(childrenElements, className, e.currentTarget);
+				});
+			});
+		});
+
+		function toggleClass(element, className, isActive) {
+			isActive ? element.classList.add(className) : element.classList.remove(className);
+		}
+
+		function clickToggleClass(elements, className, currentElement) {
+			elements.forEach((element) => {
+				const isActive = element === currentElement;
+				toggleClass(element, className, isActive);
+			});
+		}
+	},
+
+
+
+
 
 
 
@@ -413,38 +487,56 @@ let common = {
 			// }
 		});
 	},
-	// 공통 : 탭메뉴 이벤트
-	tabMenuEvent: function (initIndex) {
-		const tabMenus = document.querySelectorAll('.tab_menu_wrap');
+	// 헤더 스크롤 이벤트(아직 결정된 사항 아님)
+	scrollDeformation: function () {
+		if (document.querySelector('#wrap') == null) return;
 
-		tabMenus.forEach((tabMenu) => {
-			const tabTitles = tabMenu.querySelectorAll('.tab_title > li');
-			// const tabContents = tabMenu.querySelectorAll('.tab_content > div');
-			const initialIndex = initIndex || 0;
+		const condition = document.querySelector('#wrap').classList.contains('scroll_deformation');
+		const titleEl = document.querySelector('#header > .title_wrap h1');
+		var matrixArr = [-36, 50, 2];
 
-			// init
-			// setActiveTab(tabTitles, tabContents, initialIndex);
-			setActiveTab(tabTitles, initialIndex);
+		if (!condition) return
 
-			// 클릭 이벤트
-			tabTitles.forEach((tabTitle, currentIndex) => {
-				tabTitle.addEventListener('click', (e) => {
-					// setActiveTab(tabTitles, tabContents, currentIndex);
-					setActiveTab(tabTitles, currentIndex);
-				});
+		// init
+		initStyle(matrixArr);
+		document.addEventListener('scroll', handleScroll);
+
+		// 스크롤 중간에서 새로고침 할 경우 대비
+		function initStyle(arr) {
+			const scrollTop = document.documentElement.scrollTop;
+
+			if (scrollTop == 0) {
+				titleEl.style.transform = `translate(${arr[0]}px, ${arr[1]}px) scale(${arr[2]})`;
+			} else {
+				titleEl.style.transform = 'translate(0, 0) scale(1)';
+			}
+		}
+
+		function handleScroll() {
+			const scrollTop = document.documentElement.scrollTop;
+			applyTransform(scrollTop);
+		}
+
+		function applyTransform(scrollTop) {
+			if (scrollTop >= 50) {
+				scrollTop = 50;
+			} else if (scrollTop <= 0) {
+				scrollTop = 0;
+			}
+
+			const calArr = matrixArr.map((el) => el / matrixArr[1]);
+			const transformed = matrixArr.map((el, i) => {
+				return i === matrixArr.length - 1
+					? el - (calArr[i] * scrollTop) / 2
+					: el - calArr[i] * scrollTop;
 			});
-		});
 
-		function setActiveTab(titles, index) {
-			titles.forEach((title, i) => {
-				title.classList.toggle('active', i === index);
-			});
-
-			// contents.forEach((content, i) => {
-			//   content.classList.toggle('active', i === index);
-			// });
+			titleEl.style.transform = `translate(${transformed[0]}px, ${transformed[1]}px) scale(${transformed[2]})`;
 		}
 	},
+
+
+
 	// 공통 : 숫자 애니메인션 카운터
 	animateCounter: function (counter, targetValue, duration) {
 		if (document.querySelector(counter) == null) return;
@@ -498,284 +590,7 @@ let common = {
 			});
 		});
 	},
-	downloadAnimation: function () {
-		if (document.querySelector('.download_ani') == null) return;
 
-		let downloadAni = document.querySelector('.download_ani');
-		let lottiePlayer = downloadAni.querySelector('lottie-player');
-
-		downloadAni.classList.add('active');
-		lottiePlayer.play();
-
-		lottiePlayer.addEventListener("complete", () => {
-			//console.log('complete');
-			downloadAni.classList.remove('active');
-			lottiePlayer.stop();
-		});
-	},
-	// 재생목록 팝업 클릭 이벤트(재생, 중지, 닫기)
-	playlistPopupEvent: function () {
-		if (document.querySelector('.playlist_wrap') == null) return;
-
-		const playlistPopup = document.querySelector('.playlist_wrap');
-		const playlistUnit = playlistPopup.querySelectorAll(':scope .play_list > div');
-		const closePlaylistPopup = playlistPopup.querySelector(':scope .layer_content_wrap .layer_content .header > .title_wrap .btn_back');
-
-		const playerDownloadWrap = document.querySelector('.player_download_wrap');
-		// 다운로드 버튼
-		const downloadWrap = playerDownloadWrap.querySelector(':scope > .download_wrap');
-
-		// 플레이어
-		const playerWrap = playerDownloadWrap.querySelector(':scope > .player_wrap');
-		// 플레이어 상단 : 걷기 가이드 열고 닫기 버튼
-		const btnCloseDetailLayer = playerWrap.querySelector(':scope > button');
-		// 플레이어 닫기 버튼
-		const btnClosePlayer = playerWrap.querySelector(':scope > .player_status button');
-		// 플레이어 콘트롤 버튼(play, loop, playlist)
-		const btnPlayerUnit = playerWrap.querySelectorAll(':scope > .player_controll .controll > button');
-
-		playlistUnit.forEach((playlist) => {
-			playlist.addEventListener('click', () => {
-				playlist.classList.contains('paused') ? playlist.classList.remove('paused') : playlist.classList.add('paused');
-			});
-		});
-
-		// 재생목록 팝업 닫기
-		closePlaylistPopup.addEventListener('click', () => {
-			resetPopupBtn();
-		});
-
-		function resetPopupBtn() {
-			wrap.classList.remove('player_show');
-			common.layerClose('#guideDetail');
-			closePlayList();
-		}
-
-		function closePlayList() {
-			common.layerClose('#playlistPopup');
-			btnPlayerUnit[3].classList.remove('active');
-		}
-	},
-	// 다운로드, 플레이어 클릭 이벤트
-	playerButtonEvent: function () {
-		if (document.querySelector('.player_download_wrap') == null) return;
-
-		const wrap = document.querySelector('#wrap');
-		const playerDownloadWrap = document.querySelector('.player_download_wrap');
-		// 다운로드 버튼
-		const downloadWrap = playerDownloadWrap.querySelector(':scope > .download_wrap');
-
-		// 플레이어
-		const playerWrap = playerDownloadWrap.querySelector(':scope > .player_wrap');
-		// 플레이어 상단 : 걷기 가이드 열고 닫기 버튼
-		const btnCloseDetailLayer = playerWrap.querySelector(':scope > button');
-		// 플레이어 닫기 버튼
-		const btnClosePlayer = playerWrap.querySelector(':scope > .player_status button');
-		// 플레이어 콘트롤 버튼(play, loop, playlist)
-		const btnPlayerUnit = playerWrap.querySelectorAll(':scope > .player_controll .controll > button');
-
-		//
-		if (downloadWrap) {
-			const btnDownload = downloadWrap.querySelector(':scope > button');
-			btnDownload.addEventListener('click', () => {
-				let condition = downloadWrap.classList.contains('downloading');
-
-				if (condition) {
-					downloadWrap.classList.remove('downloading');
-					wrap.classList = 'player_show';
-				} else {
-					downloadWrap.classList.add('downloading');
-				}
-			});
-
-			// 플레이어 상단 : 걷기 가이드 열고 닫기 버튼
-			btnCloseDetailLayer.addEventListener('click', () => {
-				let condition = btnCloseDetailLayer.classList.contains('active');
-
-				if (condition) {
-					btnCloseDetailLayer.classList.remove('active');
-				} else {
-					btnCloseDetailLayer.classList.add('active');
-					closePlayList();
-				}
-				common.layerToggle('#guideDetail');
-			});
-
-			// 플레이어 닫기 버튼
-			btnClosePlayer.addEventListener('click', () => {
-				let condition = btnCloseDetailLayer.classList.contains('active');
-
-				condition ? btnCloseDetailLayer.classList.remove('active') : btnCloseDetailLayer.classList.add('active');
-				resetPopupBtn();
-			});
-		}
-
-		// 플레이어 콘트롤 버튼 - play
-		btnPlayerUnit[0].addEventListener('click', () => {
-			btnPlayerUnit[0].classList.toggle('active');
-		});
-
-		// 플레이어 콘트롤 버튼 - loop
-		btnPlayerUnit[2].addEventListener('click', () => {
-			btnPlayerUnit[2].classList.toggle('active');
-		});
-
-		// 플레이어 콘트롤 버튼 - playlist
-		btnPlayerUnit[3].addEventListener('click', () => {
-			if (btnPlayerUnit[3].classList.contains('active')) {
-				resetPopupBtn();
-			} else {
-				openPlayList();
-			}
-		});
-
-
-		function resetPopupBtn() {
-			wrap.classList.remove('player_show');
-			btnCloseDetailLayer.classList.remove('active');
-			closePlayList();
-		}
-
-		function openPlayList() {
-			btnPlayerUnit[3].classList.add('active');
-			btnCloseDetailLayer.classList.remove('active');
-			common.layerClose('#guideDetail');
-			common.layerOpen('#playlistPopup');
-		}
-
-		function closePlayList() {
-			btnPlayerUnit[3].classList.remove('active');
-			common.layerClose('#playlistPopup');
-			common.layerClose('#guideDetail');
-		}
-	},
-	enterReplyShow: function () {
-		if (document.querySelector('.enter_reply_wrap') == null) return;
-		document.querySelector('.enter_reply_wrap').classList.add('active');
-	},
-	enterReplyHide: function () {
-		if (document.querySelector('.enter_reply_wrap') == null) return;
-		document.querySelector('.enter_reply_wrap').classList.remove('active');
-	},
-	enterReplyEvent: function () {
-		if (document.querySelector('.enter_reply_wrap') == null) return;
-
-		const enterReplyWrap = document.querySelector('.enter_reply_wrap');
-		let btnCloseReply = enterReplyWrap.querySelector(':scope > .inner .info_wrap .status button');
-
-		// 입력창 버튼으로 닫기
-		if (btnCloseReply) {
-			btnCloseReply.addEventListener('click', () => {
-				this.enterReplyHide();
-			});
-		}
-
-		// 입력창 dimmed로 닫기
-		document.querySelector('html').addEventListener('click', (e) => {
-			if (e.target == enterReplyWrap) {
-				this.enterReplyHide();
-			}
-		});
-	},
-	headerBtnEvent: function () {
-		const btnComments = document.querySelector('#header .btn_comments');
-
-		if (btnComments) {
-			btnComments.addEventListener('click', () => {
-				this.enterReplyShow();
-			});
-		}
-	},
-
-
-
-
-	// 헤더 스크롤 이벤트(아직 결정된 사항 아님)
-	scrollDeformation: function () {
-		if (document.querySelector('#wrap') == null) return;
-
-		const condition = document.querySelector('#wrap').classList.contains('scroll_deformation');
-		const titleEl = document.querySelector('#header > .title_wrap h1');
-		var matrixArr = [-36, 50, 2];
-
-		if (!condition) return
-
-		// init
-		initStyle(matrixArr);
-		document.addEventListener('scroll', handleScroll);
-
-		// 스크롤 중간에서 새로고침 할 경우 대비
-		function initStyle(arr) {
-			const scrollTop = document.documentElement.scrollTop;
-
-			if (scrollTop == 0) {
-				titleEl.style.transform = `translate(${arr[0]}px, ${arr[1]}px) scale(${arr[2]})`;
-			} else {
-				titleEl.style.transform = 'translate(0, 0) scale(1)';
-			}
-		}
-
-		function handleScroll() {
-			const scrollTop = document.documentElement.scrollTop;
-			applyTransform(scrollTop);
-		}
-
-		function applyTransform(scrollTop) {
-			if (scrollTop >= 50) {
-				scrollTop = 50;
-			} else if (scrollTop <= 0) {
-				scrollTop = 0;
-			}
-
-			const calArr = matrixArr.map((el) => el / matrixArr[1]);
-			const transformed = matrixArr.map((el, i) => {
-				return i === matrixArr.length - 1
-					? el - (calArr[i] * scrollTop) / 2
-					: el - calArr[i] * scrollTop;
-			});
-
-			titleEl.style.transform = `translate(${transformed[0]}px, ${transformed[1]}px) scale(${transformed[2]})`;
-		}
-	},
-	// 클릭한 대상에 class 추가 이벤트(사용된 부분이 없음)
-	siblingsToggleClass: function (targetSelector, childrenSelector, initialIndex, className) {
-		const targetElements = document.querySelectorAll(targetSelector);
-
-		targetElements.forEach((targetElement) => {
-			const childrenElements = targetElement.querySelectorAll(childrenSelector);
-
-			childrenElements.forEach((childElement, index) => {
-				const isActive = index === initialIndex;
-
-				// Initialize classes based on the initial index
-				toggleClass(childElement, className, isActive);
-
-				childElement.addEventListener('click', (e) => {
-					e.preventDefault();
-
-					// remove
-					childrenElements.forEach((otherElement) => {
-						toggleClass(otherElement, className, false);
-					});
-
-					// Add
-					toggleClass(e.currentTarget, className, true);
-				});
-			});
-		});
-
-		function toggleClass(element, className, isActive) {
-			isActive ? element.classList.add(className) : element.classList.remove(className);
-		}
-	},
-	// class toggle 이벤트(사용된 부분이 없음)
-	toggleClass: function (target, className, parent) {
-		parent === undefined ? target.classList.toggle(className) : target.closest(parent).classList.toggle(className);
-	},
-	// 모바일 체크(사용된 부분이 없음)
-	isMobile: function () {
-		return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-	},
 	// circleProgress(사용된 부분이 없음)
 	circleProgress: function (controlId, barSelector, valueSelector) {
 		var control = document.getElementById(controlId);
@@ -805,14 +620,19 @@ let common = {
 	},
 }
 
+
+/*
+	lottiePlayer.play();
+
+	lottiePlayer.stop();
+
+	heartEffect02.querySelectorAll('lottie-player')[1].addEventListener("complete", () => {
+		date.closest('td').classList.replace('today', 'complete');
+	});
+*/
+
 // 메인
 let main = {
-	init() {
-		this.mainInit(99999, 30, 80); // 걸음수, 오늘, 어제
-		this.mainWeeklyEvent(3); // 요일 0 ~ 6(일 ~ 토)
-		this.mainScrollEvent();
-		this.monthlyAttendanceEvent(13); // 0부터 시작하니 원하는 날짜-1 입력
-	},
 	// 메인 : 출석 이벤트 오늘날짜로 스크롤 이동, 클릭 이벤트
 	mainWeeklyEvent: function (day) {
 		if (document.querySelector('.attendance_wrap .calendar_cont') == null) return;
@@ -990,147 +810,11 @@ let main = {
 				});
 			}
 		});
-
-		function mainSwiper() {
-			if (document.querySelector('.main_swipe_menu') == null) return;
-
-			/* 2023-12-04 스크립트 수정 */
-			mainVisualSwipe = new Swiper('.main_swipe_menu .visual_swiper', {
-				roundLengths: true,		// 이미지가 흐리게 나옴 방지
-				loop: true
-			});
-			mainTextSwipe = new Swiper('.main_swipe_menu .text_swiper', {
-				autoplay: {
-					delay: 2000,
-					disableOnInteraction: false,
-				},
-				effect: "fade",
-				speed: 200,
-				loop: true
-			});
-			/* //2023-12-04 스크립트 수정 */
-
-			let currentIndex = 0;
-
-			// mainVisualSwipe.on('slideChange', function () {
-			//   currentIndex = this.realIndex;
-			//   mainTextSwipe.slideTo(currentIndex);
-			// });
-
-			mainTextSwipe.on('slideChange', function () {
-				currentIndex = this.realIndex;
-				mainVisualSwipe.slideTo(currentIndex);
-			});
-		}
-
-		// 메인 스크롤 이벤트 초기화
-		function resetMainScrollEvent() {
-			attendance.classList.remove('active');
-
-			// 메인 스와이퍼 리셋
-			//mainSwipe.classList.remove('active');
-			//mainSwipe.style.height = 0;
-			//mainTextSwipe.autoplay.stop(); // 2023-12-04 수정
-
-			// 툴바 감추기
-			toolBar.classList.remove('active');
-
-			//
-			statusLi.forEach((el) => { el.classList.remove('active') });
-		}
-
-		// 메인 : 상태 스트롤 대응 이벤트
-		function mainStatusScrollEvent() {
-			if (document.querySelector('.status_wrap') == null) return;
-
-			const statusContents = document.querySelectorAll('.status_wrap > ul > li');
-
-			statusContents.forEach((li) => {
-				// 걸음, 젤리, 완료한 챌린지
-				if (li.classList.contains('animate')) {
-					let contents = li.querySelector(':scope > .inner > .contents');
-					let content1 = contents.querySelector(':scope .content1').offsetHeight;
-					let content2 = contents.querySelector(':scope .content2').offsetHeight;
-					let heightValue = li.classList.contains('active') ? content2 + 'px' : content1 + 'px';
-
-					contents.style.height = heightValue;
-				}
-
-				// 참여가능한 챌린지
-				if (li.classList.contains('participate')) {
-					let contents = li.querySelector(':scope > .inner > .contents');
-					let content1 = contents.querySelector(':scope .content1').offsetHeight;
-					let content2 = contents.querySelector(':scope .content2').offsetHeight;
-					let heightValue = li.classList.contains('active') ? content2 + content1 + 'px' : content1 + 'px';
-
-					contents.style.height = heightValue;
-				}
-			});
-		}
-	},
-	// 메인 최초 로드 시 애니메이션(걸음수, 오늘, 어제)
-	mainInit: function (count, today, yesterday) {
-		if (document.querySelector('.main_content_wrap .status_wrap') == null) return;
-
-		const target = document.querySelector('.main_content_wrap .status_wrap li.walking .content1 > .progress_wrap > div');
-		// common.animateCounter('.main_content_wrap li.walking .content1 .text_wrap strong', count, 1000);
-		// target.querySelector(':scope > span').style.width = today + '%';
-		// target.querySelector(':scope > em').style.width = yesterday + '%';
-	},
-	// 월간 출석 클릭 이벤트
-	monthlyAttendanceEvent: function (today) {
-		if (document.querySelector('.monthly_attendance_wrap') == null) return;
-
-		const monthlyAttendance = document.querySelector('.monthly_attendance_wrap .monthly_calendar .calendar_tbl');
-		const monthlyDate = document.querySelectorAll(':scope td a');
-		const heartEffect01 = monthlyAttendance.querySelector(':scope .heart_effect01');
-		const heartEffect02 = monthlyAttendance.querySelector(':scope .heart_effect02');
-
-		monthlyDate.forEach((date, index) => {
-
-			if (today === index) {
-				setTimeout(() => {
-					date.closest('td').classList.add('today');
-
-					date.querySelector(':scope .icon').append(heartEffect01);
-					date.querySelector(':scope .icon').append(heartEffect02);
-				}, 300);
-
-				date.addEventListener('click', (e) => {
-					e.preventDefault();
-					// 클릭 효과 lottie
-					heartEffect02.querySelectorAll('lottie-player').forEach((lp) => {
-						lp.play();
-					});
-
-					date.querySelector(':scope .icon').classList.add('clicked');
-
-					//callback
-					heartEffect02.querySelectorAll('lottie-player')[1].addEventListener("complete", () => {
-						date.closest('td').classList.replace('today', 'complete');
-					});
-				});
-			}
-		});
 	}
 }
 
 // 챌린지
 let challenge = {
-	init: function () {
-		// this.challengeNotice();
-		this.challengeScrollEvent();
-		this.challengeCategoryListEvent();
-		this.challengeRewardEvent();
-		this.challengeReportAni();
-		this.commentsBtnEvent();
-	},
-	// 챌린지 안내
-	challengeNotice: function () {
-		if (document.querySelector('.challenge_notice > .inner') == null) return;
-
-		common.marqueeEvent('.challenge_notice > .inner', 0.2);
-	},
 	// 챌린지 : 목록 - 카테고리 이벤트
 	challengeCategoryListEvent: function () {
 		if (document.querySelector('.challenge_category') == null) return;
@@ -1169,20 +853,6 @@ let challenge = {
 				clickIndex = currentIndex;
 			});
 		});
-
-		// 2023-12-04 구조 변경으로 사용하지 않음
-		// spread 리스트 클릭 이벤트
-		// spreadList.forEach((tabTitle, currentIndex) => {
-		//   tabTitle.addEventListener('click', (e) => {
-		//     e.preventDefault();
-
-		//     let condition = challengeCategory.classList.contains('active');
-
-		//     if(condition){
-		//       setActiveTab(spreadList, currentIndex);
-		//     }
-		//   });
-		// });
 
 		// 토글 버튼 이벤트
 		toggleBtn.addEventListener('click', () => {
@@ -1306,171 +976,6 @@ let challenge = {
 			todayGraph.style.left = today + '%';
 			yesterdayGraph.style.left = yesterday + '%';
 		}
-	},
-	// 챌린지 : 상세 - 리워드 버튼 이벤트(버튼 클릭 시 스크롤 이동)
-	challengeRewardEvent: function () {
-		if (document.querySelector('.challenge_detail_wrap .challenge_reward') == null) return;
-
-		const challengeReward = document.querySelector('.challenge_detail_wrap .challenge_reward');
-		const rewardToggleCont = challengeReward.querySelector(':scope > .toggle_cont');
-
-		const rewardUl = challengeReward.querySelector(':scope > ul');
-		const rewardLi = rewardUl.querySelectorAll(':scope > li');
-		const rewardBtn = challengeReward.querySelector(':scope > button');
-		const pickChallenge = document.querySelector('.challenge_detail_wrap .pick_challenge');
-		let rewardListHeight = calcListHeight();
-
-		// 초기 상태 설정
-		// 2023-12-04 setListHeight(rewardBtn, rewardListHeight);
-		btnDownload();
-
-		// 리워드 리스트 높이값 계산
-		function calcListHeight() {
-			let rewardLi = rewardUl.querySelectorAll(':scope > li');
-			let parentHeight = 0;
-			let childrenHeight = rewardLi[0].offsetHeight;
-			let gap = 12;
-
-			rewardLi.forEach((li, index) => {
-				let value = index > 0 ? li.offsetHeight + gap : li.offsetHeight;
-				parentHeight += value;
-			});
-
-			let toggleEl = rewardToggleCont.querySelectorAll(':scope > div');
-			let toggleHeight = 0;
-			let gap2 = 16; // 패딩 값 16 포함
-
-			toggleEl.forEach((div, index) => {
-				let value = index > 0 ? div.offsetHeight + gap2 : div.offsetHeight;
-				toggleHeight += value;
-			});
-
-			return { parentHeight, childrenHeight, toggleHeight };
-		}
-
-		// 2023-12-04 리워드 접기/펴기 클릭 이벤트 + 스크롤 이동
-		// rewardBtn.addEventListener('click', (e) => {
-		//   rewardListHeight = calcListHeight();
-
-		//   common.scrollToEvent('html', challengeReward);
-		//   setListHeight(e.target.closest('button'), rewardListHeight);
-		// });
-
-		// 리워드 접기/펴기 버튼에 class toggle, ul 높이 값 변경
-		function setListHeight(target, heights) {
-			let condition = target.classList.contains('active');
-			let value = [0, 0];
-
-			if (condition) {
-				target.classList.remove('active');
-				value[0] = heights.parentHeight;
-				value[1] = heights.toggleHeight;
-			} else {
-				target.classList.add('active');
-				value[0] = heights.childrenHeight;
-				value[1] = 0;
-			}
-			rewardToggleCont.style.height = value[1] + 'px';
-			rewardUl.style.height = value[0] + 'px';
-		}
-		// 리사이즈 이벤트
-		// window.addEventListener('resize', () => {
-		//   rewardListHeight = calcListHeight();
-		//   setListHeight(rewardBtn, rewardListHeight);
-		// });
-
-		// 리워드 받기 버튼 클릭 변화 이벤트
-		function btnDownload() {
-			rewardLi.forEach((btn) => {
-				const targetBtn = btn.querySelector('button');
-
-				if (targetBtn) {
-					targetBtn.addEventListener('click', () => {
-						// 버튼 연타 방지
-						let downloadAni = document.querySelector('.download_ani');
-						if (downloadAni != null && downloadAni.classList.contains('active')) return
-
-						if (!targetBtn.classList.contains('complete')) {
-							targetBtn.classList.add('complete');
-							targetBtn.disabled = true;
-
-							common.downloadAnimation();
-						}
-					});
-				}
-			});
-		}
-
-		// 자세히 보기 버튼 이벤트
-		pickChallenge.querySelector(':scope > button').addEventListener('click', () => {
-			pickChallenge.classList.add('active');
-			common.scrollToEvent('html', pickChallenge, 0);
-		});
-	},
-	commentsBtnEvent: function () {
-		if (document.querySelector('.comments_list_wrap') == null) return;
-
-		const commentsDetail = document.querySelectorAll('.comments_list_wrap .comments_content');
-		commentsDetail.forEach((comment) => {
-			// 더보기
-			let btnMore = comment.querySelector(':scope > .content .btn_more');
-			// 답글쓰기
-			let btnWritingReply = comment.querySelector(':scope > .reply_wrap .btn_writing_reply');
-
-			if (btnMore) {
-				btnMore.addEventListener('click', () => {
-					let target = btnMore.closest('.comments_content').querySelector(':scope .content');
-					target.classList.contains('expansion') ? target.classList.remove('expansion') : target.classList.add('expansion');
-				});
-			} else {
-				// 댓글 상세에서는 댓글 확장
-				comment.querySelector(':scope .content').classList.add('expansion');
-			}
-
-			if (btnWritingReply) {
-				btnWritingReply.addEventListener('click', () => {
-					common.enterReplyShow();
-				});
-			}
-		});
-	},
-
-
-
-
-
-
-
-	// 챌린지 : 상세 - 진행중 상태 일때 실행되어야함(fixed 메뉴 가변 높이 값 적용)
-	// 일단 사용하지 않음 10/31
-	challengeLayoutHeight: function () {
-		if (document.querySelector('.challenge_layout.ongoing') == null) return;
-
-		const target = document.querySelector('.challenge_layout.ongoing');
-		const challengeDetailWrap = target.querySelector('.challenge_detail_wrap');
-		const inner = challengeDetailWrap.querySelector(':scope > .inner');
-		const record = inner.querySelector(':scope > .challenge_record');
-
-		// init
-		setValue();
-
-		// 높이값 계산
-		function setValue() {
-			let height = record.offsetHeight;
-			let gap = 50;
-			document.querySelector('#container').style.paddingTop = height + gap + 'px';
-		}
-		// 리사이즈 이벤트
-		window.addEventListener('resize', () => { setValue() });
-	},
-	// 챌린지 : 상세 - 프로스레스 바(결정된 내용이 아니라 보류 완성된 소스 아님)
-	challengeProgressBar: function (target, number) {
-		const progressBox = document.querySelectorAll('.challenge_record > .inner .progress_box');
-
-		progressBox.forEach((progress) => {
-			let target = progress.querySelector(':scope > div');
-			console.log(target.offsetWidth, number);
-		});
 	},
 }
 
@@ -1674,89 +1179,6 @@ let walkingReport = {
 		}
 	},
 }
-
-// 걷기가이드
-let walkingGuide = {
-	init: function () {
-		this.filterViewEvent();
-		this.detailToggleEvent();
-		common.playerButtonEvent();
-		common.playlistPopupEvent();
-		this.detailPopupClose();
-	},
-	// 걷기가이드 목록 필터 버튼 이벤트
-	filterViewEvent: function () {
-		if (document.querySelector('.walking_guide_wrap') == null) return;
-
-		const guideListWrap = document.querySelector('.guide_list_wrap');
-		const filterView = guideListWrap.querySelector(':scope .filter_view');
-		const view = filterView.querySelector(':scope > button');
-
-		view.addEventListener('click', () => {
-			let condition = guideListWrap.classList.contains('active');
-
-			condition ? guideListWrap.classList.remove('active') : guideListWrap.classList.add('active')
-		});
-	},
-	// 걷기 가이드 목록에서 상세 페이지 팝업 오픈
-	detailToggleEvent: function () {
-		if (document.querySelector('.walking_guide_wrap') == null) return;
-
-		const guideUnit = document.querySelectorAll('.walking_guide_wrap .guide_list > div');
-
-		guideUnit.forEach((el) => {
-			// 상세 클릭
-			el.addEventListener('click', () => {
-				common.layerOpen('#guideDetail');
-
-				if (!wrap.classList.contains('player_show')) {
-					wrap.classList = 'download_show';
-				}
-			});
-		});
-	},
-	// 걷기가이드 상세 닫기
-	detailPopupClose: function () {
-		if (document.querySelector('.guide_detail_wrap') == null) return;
-		const closeGuideDetail = document.querySelector('.guide_detail_wrap .layer_content_wrap .layer_content .header > .title_wrap .btn_back');
-
-		const playerDownloadWrap = document.querySelector('.player_download_wrap');
-		// 플레이어
-		const playerWrap = playerDownloadWrap.querySelector(':scope > .player_wrap');
-		// 플레이어 상단 : 걷기 가이드 열고 닫기 버튼
-		const btnCloseDetailLayer = playerWrap.querySelector(':scope > button');
-		// 플레이어 콘트롤 버튼(play, loop, playlist)
-		const btnPlayerUnit = playerWrap.querySelectorAll(':scope > .player_controll .controll > button');
-
-		closeGuideDetail.addEventListener('click', () => {
-			resetPopupBtn();
-		});
-
-		function resetPopupBtn() {
-			wrap.classList = '';
-			btnCloseDetailLayer.classList.remove('active');
-			btnPlayerUnit[3].classList.remove('active');
-			common.layerClose('#playlistPopup');
-			common.layerClose('#guideDetail');
-		}
-	},
-}
-
-document.addEventListener("DOMContentLoaded", function () {
-	common.init();
-	main.init();
-	challenge.init();
-	//walkingReport.anchorEvent();
-	walkingGuide.init();
-});
-
-
-
-
-//common.challengeProgressBar(50);
-// common.toggleSlide('.challenge_crew', '.btn');
-
-
 
 
 

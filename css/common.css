@@ -1,8 +1,5 @@
 :root {
-  --color-brand1: #4E2AF4;
-  --color-sec1: #FF2E6D;
   --color-font1: #000;
-  --color-font2: #777;
 }
 
 .modal_layer_popup {
@@ -82,7 +79,7 @@
 .modal_layer_popup .layer_content_wrap .layer_content .layer_header h1 + p {
   margin-top: 24px;
   font-size: 16px;
-  color: var(--color-font2);
+  color: #777;
 }
 .modal_layer_popup .layer_content_wrap .layer_content .layer_header h1 span {
   padding-left: 5px;
@@ -287,34 +284,13 @@
 .btn_dialog button {
   flex: 1;
   height: 100%;
-  background: var(--color-brand1);
+  background: #000;
   font-size: 14px;
   font-weight: 800;
   color: #fff;
 }
 .btn_dialog button + button {
   margin-left: 10px;
-}
-.btn_dialog button.btn_cancel {
-  background: #fff;
-  border: 5px solid var(--color-brand1);
-  color: var(--color-font3);
-  font-weight: 600;
-}
-.btn_dialog button.btn_plus span {
-  position: relative;
-  padding-left: 24px;
-}
-.btn_dialog button.btn_plus span::after {
-  content: "";
-  position: absolute;
-  top: 50%;
-  left: 0;
-  transform: translateY(-50%);
-  width: 16px;
-  height: 16px;
-  background: url("../images/common/ico_add.svg") no-repeat 50%;
-  background-size: 100%;
 }
 .btn_dialog.align_right {
   padding: 0 10px 0 20px;
@@ -325,23 +301,10 @@
   padding: 0 10px;
   background: none;
   border: 0 none;
-  color: var(--color-brand1);
+  color: #000;
 }
-.btn_dialog.align_right button.btn_cancel {
-  color: var(--color-font3);
-}
-.btn_dialog.justify_between {
-  justify-content: space-between;
-}
-.btn_dialog.justify_between button {
-  flex: none;
-  padding: 0 10px;
-  background: none;
-  border: 0 none;
-  color: var(--color-brand1);
-}
-.btn_dialog.justify_between button.btn_cancel {
-  color: var(--color-font3);
+.btn_dialog.align_right button.btn_confirm {
+  color: red;
 }
 
 .design_select {
@@ -377,7 +340,7 @@
   transform: translateY(-50%);
   width: 16px;
   height: 16px;
-  background: red;
+  background: #000;
   background-size: 100%;
 }
 .design_select > .optionList {
@@ -409,7 +372,7 @@
   border-top: 1px solid #000;
 }
 .design_select.active > .selected span:after {
-  background: cyan;
+  background: red;
 }
 .design_select.active > .optionList {
   display: block;
@@ -422,7 +385,7 @@
   transform: translateY(-50%);
   width: 12px;
   height: 12px;
-  background: red;
+  background: #000;
   background-size: 100%;
 }
 
@@ -465,10 +428,10 @@
   color: #555;
 }
 .design_radio > li > input:checked + label {
-  color: var(--color-brand1);
+  color: red;
 }
 .design_radio > li > input:checked + label:after {
-  background-color: var(--color-brand1);
+  background-color: red;
 }
 
 .design_checkbox input {
@@ -493,6 +456,42 @@
   width: 20px;
   height: 20px;
   background: #000;
+}
+
+.inpchk_ani {
+  display: inline-block;
+  width: 48px;
+  height: 28px;
+}
+.inpchk_ani input {
+  display: none;
+}
+.inpchk_ani input:checked + label {
+  background: red;
+}
+.inpchk_ani input:checked + label span {
+  left: calc(100% - 26px);
+}
+.inpchk_ani label {
+  position: relative;
+  display: block;
+  height: 100%;
+  overflow: hidden;
+  border-radius: 14px;
+  background: #CCC;
+  transition: background 0.3s;
+}
+.inpchk_ani label span {
+  font-size: 0;
+  line-height: 0;
+  position: absolute;
+  top: 3px;
+  left: 4px;
+  width: 22px;
+  height: 22px;
+  background: #fff;
+  border-radius: 50%;
+  transition: left 0.3s;
 }
 
 .marquee_element {
@@ -538,42 +537,59 @@
   opacity: 1;
   pointer-events: auto;
 }
-.animation_count.active p {
-  opacity: 1;
+
+.bull_list > li {
+  position: relative;
+  padding-left: 14px;
+  font-size: 14px;
+  font-weight: 400;
+  color: #000;
+}
+.bull_list > li:after {
+  content: "";
+  position: absolute;
+  top: 7px;
+  left: 0;
+  width: 4px;
+  height: 4px;
+  background: #000;
+}
+.bull_list > li + li {
+  margin-top: 8px;
 }
 
-.inpchk_ani {
-  display: inline-block;
-  width: 48px;
-  height: 28px;
+.tab_menu_wrap .tab_title {
+  display: flex;
+  align-items: center;
 }
-.inpchk_ani input {
-  display: none;
+.tab_menu_wrap .tab_title > li {
+  border: 1px solid #000;
+  padding: 5px 10px;
 }
-.inpchk_ani input:checked + label {
-  background: var(--color-brand1);
+.tab_menu_wrap .tab_title > li + li {
+  margin-left: 10px;
 }
-.inpchk_ani input:checked + label span {
-  left: calc(100% - 26px);
-}
-.inpchk_ani label {
-  position: relative;
+.tab_menu_wrap .tab_title > li > a {
   display: block;
-  height: 100%;
-  overflow: hidden;
-  border-radius: 14px;
-  background: #CCC;
-  transition: background 0.3s;
+  font-size: 13px;
+  font-weight: 600;
+  color: #000;
 }
-.inpchk_ani label span {
-  font-size: 0;
-  line-height: 0;
-  position: absolute;
-  top: 3px;
-  left: 4px;
-  width: 22px;
-  height: 22px;
-  background: #fff;
-  border-radius: 50%;
-  transition: left 0.3s;
+.tab_menu_wrap .tab_title > li.active a {
+  color: red;
+}
+.tab_menu_wrap .tab_content > div {
+  margin-top: 5px;
+  padding: 10px;
+  min-height: 100px;
+  border: 1px solid #000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  display: none;
+  font-size: 30px;
+  font-weight: 700;
+}
+.tab_menu_wrap .tab_content > div.active {
+  display: flex;
 }
