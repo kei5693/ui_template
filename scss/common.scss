@@ -608,7 +608,7 @@
 }
 
 // 카운트다운 애니메이션
-.animation_count {
+.animation_count_down {
   position: fixed;
   top: 0;
   left: 0;
@@ -638,6 +638,12 @@
     opacity: 1;
     pointer-events: auto;
   }
+}
+
+// 숫자 카운터 애니메이션
+.animation_counter {
+  font-size: 20px;
+  font-weight: 700;
 }
 
 // 블릿 리스트

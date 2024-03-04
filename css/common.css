@@ -509,7 +509,7 @@
   white-space: nowrap;
 }
 
-.animation_count {
+.animation_count_down {
   position: fixed;
   top: 0;
   left: 0;
@@ -524,18 +524,23 @@
   justify-content: center;
   align-items: center;
 }
-.animation_count p {
+.animation_count_down p {
   font-size: 110px;
   font-weight: 800;
   color: #fff;
   line-height: 1;
 }
-.animation_count p.active {
+.animation_count_down p.active {
   animation: countAni 1s forwards;
 }
-.animation_count.active {
+.animation_count_down.active {
   opacity: 1;
   pointer-events: auto;
+}
+
+.animation_counter {
+  font-size: 20px;
+  font-weight: 700;
 }
 
 .bull_list > li {

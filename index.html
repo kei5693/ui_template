@@ -85,13 +85,30 @@
         </ul>
       </div>
 
-      <!-- CountDown Animation -->
+      <!-- Number CountDown Animation -->
       <div>
-        <h2>CountDown Animation</h2>
+        <h2>Number CountDown Animation</h2>
         <div class="btn_grid">
           <button type="button" onClick="common.animationCount()">Start</button>
         </div>
-        <div class="animation_count"><p></p></div>
+        <div class="animation_count_down"><p></p></div>
+      </div>
+
+      <!-- Number Counter Animation -->
+      <div>
+        <h2>common.animateCounter Animation</h2>
+        <h3>동일한 숫자의 경우 무시</h3>
+        <div class="btn_grid">
+          <button type="button" onClick="animationCounter()">Start</button>
+          <button type="button" onClick="animationCounter2()">Start2</button>
+          <button type="button" onClick="animationCounterInit()">Reset</button>
+        </div>
+        <br>
+        <ul class="animation_counter">
+          <li>0</li>
+          <li>0</li>
+          <li>0</li>
+        </ul>
       </div>
 
       <!-- Marquee -->
@@ -156,26 +173,36 @@
         </div>
       </div>
 
+      <!-- Scroll Event -->
+      <div>
+        <h2>Scroll Event</h2>
+        <dl class="scroll_event">
+          <dt>document</dt>
+          <dd>
+            <ul>
+              <li class="document scrollTop"><strong>scrollTop</strong><span>0</span></li>
+              <li class="document scrollEnd"><strong>end</strong><span>0</span></li>
+            </ul>
+          </dd>
+          <dt>target</dt>
+          <dd>
+            <ul>
+              <li class="element scrollTop"><strong>scrollTop</strong><span>0</span></li>
+              <li class="element scrollEnd"><strong>end</strong><span>0</span></li>
+            </ul>
+          </dd>
+        </dl>
+        <div class="scroll_box">
+          <div class="inner">
+            <p>Ipsum id labore aliqua nisi nulla proident adipisicing est commodo. Ea consectetur enim exercitation ullamco quis. Labore nisi ea incididunt enim anim nulla nisi. Et mollit nostrud cupidatat quis quis. Veniam commodo ut laboris id id anim elit Lorem amet ullamco. Lorem est deserunt dolor ullamco officia elit id adipisicing incididunt consequat. Laborum non ut ut in. Velit culpa anim esse ad commodo est reprehenderit nulla duis eu. Tempor fugiat consectetur eiusmod deserunt esse est ut. Nostrud nostrud ut excepteur ea. Aliquip anim voluptate sint nostrud. Laborum velit sint culpa consectetur proident laborum incididunt anim cillum nisi. Nulla nisi voluptate sint sunt. Lorem culpa incididunt non ut laboris fugiat velit eu reprehenderit irure elit non est consequat. Excepteur culpa sint magna mollit cillum in sunt anim deserunt aute est non. Lorem ex excepteur Lorem aute proident ex eiusmod ex non pariatur nisi. Laboris duis labore ut tempor enim in cillum qui eiusmod. Consectetur qui incididunt cillum labore irure commodo eu culpa occaecat adipisicing non duis non tempor. Ex eu nostrud ut dolor sunt aliqua occaecat cupidatat consequat id pariatur et commodo deserunt. Deserunt cillum sunt sunt laborum sunt aute Lorem duis id sit. Fugiat do duis labore incididunt veniam dolor nulla consequat aliqua labore cupidatat proident fugiat id. Elit pariatur dolor velit aute Lorem irure est mollit dolor eiusmod amet reprehenderit proident deserunt. Ex et fugiat occaecat occaecat eu dolore. Aliqua eu nisi irure sunt ullamco magna magna culpa excepteur anim. Culpa Lorem dolor sit dolor adipisicing tempor excepteur duis ad cupidatat quis.</p>
+            <p>Ipsum id labore aliqua nisi nulla proident adipisicing est commodo. Ea consectetur enim exercitation ullamco quis. Labore nisi ea incididunt enim anim nulla nisi. Et mollit nostrud cupidatat quis quis. Veniam commodo ut laboris id id anim elit Lorem amet ullamco. Lorem est deserunt dolor ullamco officia elit id adipisicing incididunt consequat. Laborum non ut ut in. Velit culpa anim esse ad commodo est reprehenderit nulla duis eu. Tempor fugiat consectetur eiusmod deserunt esse est ut. Nostrud nostrud ut excepteur ea. Aliquip anim voluptate sint nostrud. Laborum velit sint culpa consectetur proident laborum incididunt anim cillum nisi. Nulla nisi voluptate sint sunt. Lorem culpa incididunt non ut laboris fugiat velit eu reprehenderit irure elit non est consequat. Excepteur culpa sint magna mollit cillum in sunt anim deserunt aute est non. Lorem ex excepteur Lorem aute proident ex eiusmod ex non pariatur nisi. Laboris duis labore ut tempor enim in cillum qui eiusmod. Consectetur qui incididunt cillum labore irure commodo eu culpa occaecat adipisicing non duis non tempor. Ex eu nostrud ut dolor sunt aliqua occaecat cupidatat consequat id pariatur et commodo deserunt. Deserunt cillum sunt sunt laborum sunt aute Lorem duis id sit. Fugiat do duis labore incididunt veniam dolor nulla consequat aliqua labore cupidatat proident fugiat id. Elit pariatur dolor velit aute Lorem irure est mollit dolor eiusmod amet reprehenderit proident deserunt. Ex et fugiat occaecat occaecat eu dolore. Aliqua eu nisi irure sunt ullamco magna magna culpa excepteur anim. Culpa Lorem dolor sit dolor adipisicing tempor excepteur duis ad cupidatat quis.</p>
+          </div>
+        </div>
+      </div>
+
       <div>
         <h2></h2>
       </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -543,16 +570,42 @@
 
   <script src="./js/common.js"></script>
   <script>
+    const scrollTop = document.querySelector('.document.scrollTop span');
+    const scrollEnd = document.querySelector('.document.scrollEnd span');
+    const elementScrollTop = document.querySelector('.element.scrollTop span');
+    const elementScrollEnd = document.querySelector('.element.scrollEnd span');
+
+    common.scrollEnd();
+    common.scrollEnd('.scroll_box .inner');
+
+    document.addEventListener('scroll', (e) => {
+      scrollTop.innerHTML = common.isScrollNearBottom().scrollY;
+      scrollEnd.innerHTML = common.isScrollNearBottom().condition;
+
+      if(common.isScrollNearBottom().condition){
+        document.querySelector('body').classList.add('active')
+      } else {
+        document.querySelector('body').classList.remove('active')
+      }
+    });
+
+    document.querySelector('.scroll_box .inner').addEventListener('scroll', (e) => {
+      elementScrollTop.innerHTML = common.isScrollNearBottom(e.target).scrollY;
+      elementScrollEnd.innerHTML = common.isScrollNearBottom(e.target).condition;
+
+      if(common.isScrollNearBottom(e.target).condition){
+        document.querySelector('.scroll_box').classList.add('active')
+      } else {
+        document.querySelector('.scroll_box').classList.remove('active')
+      }
+    });
+    //
     common.marqueeEvent('.marquee_element', 0.2);
-
-
-
+    //
     const userAgentTarget = document.querySelector('#userAgent');
     const isMobileResult = common.isMobile();
     userAgentTarget.textContent += isMobileResult;
-
-
-
+    //
     document.querySelectorAll('#classToggle > .btn1 button').forEach((button) =>{
       button.addEventListener('click', (e)=>{
         common.toggleClass(e.target, 'active')
@@ -563,28 +616,24 @@
         common.toggleClass(e.target, 'active', 'div')
       });
     });
-
-
-
     common.siblingsToggleClass('#classToggle > .btn3', 'button', 0, 'active')
     common.siblingsToggleClass('#classToggle > .btn4', 'button', 1, 'active')
+    //
+    function animationCounter(){
+      common.animateCounter('.animation_counter > li:nth-child(1)', 500, 600);
+      common.animateCounter('.animation_counter > li:nth-child(2)', 3500, 600);
+      common.animateCounter('.animation_counter > li:nth-child(3)', 6500, 600);
+    }
+    function animationCounter2(){
+      common.animateCounter('.animation_counter > li:nth-child(1)', 500, 600);
+      common.animateCounter('.animation_counter > li:nth-child(2)', 1545, 600);
+      common.animateCounter('.animation_counter > li:nth-child(3)', 9578, 600);
+    }
+    function animationCounterInit(){
+      document.querySelectorAll('.animation_counter > li').forEach( el =>{
+        el.innerHTML = 0
+      });
+    }
   </script>
-  <style>
-    #classToggle button {
-      min-width: 40px;
-      height: 30px;
-
-      margin: 5px;
-      background: #000;
-
-      color: #fff;
-      font-size: 14px;
-      font-weight: 700;
-    }
-    #classToggle > div.active button,
-    #classToggle button.active {
-      background: red;
-    }
-  </style>
 </body>
 </html>

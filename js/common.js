@@ -339,6 +339,33 @@ let common = {
       aniNumber.classList.remove('active');
     }
   },
+  // 공통 : 숫자 애니메이션 카운터
+  animateCounter: function (counterSelector, targetValue, duration) {
+    const targetCounter = document.querySelector(counterSelector);
+    if (!targetCounter) return;
+
+    // 현재와 동일한 숫자의 경우 무시
+    const currentValue = parseInt(targetCounter.innerText.replace(/\,/g, ''));
+    if (targetValue === currentValue) return;
+
+    const increment = (targetValue - currentValue) / duration;
+    let startTimestamp;
+
+    function updateCounter(timestamp) {
+      if (!startTimestamp) startTimestamp = timestamp;
+      const elapsedTime = timestamp - startTimestamp;
+
+      if (elapsedTime < duration) {
+        const newValue = Math.round(currentValue + increment * elapsedTime);
+        targetCounter.textContent = newValue.toLocaleString();
+        requestAnimationFrame(updateCounter);
+      } else {
+        targetCounter.textContent = targetValue.toLocaleString();
+      }
+    }
+
+    requestAnimationFrame(updateCounter);
+  },
   // 공통 : 탭메뉴 이벤트
   tabMenuEvent: function (initIndex) {
     const tabMenus = document.querySelectorAll('.tab_menu_wrap');
@@ -424,8 +451,8 @@ let common = {
     const targetEl = target === document ? document : document.querySelector(target);
 
     targetEl.addEventListener('scroll', (e) => {
-      if (this.isScrollNearBottom(e.target, buffer)) {
-        console.log('end');
+      if (this.isScrollNearBottom(e.target, buffer).condition) {
+        console.log('scroll end');
       }
     });
   },
@@ -434,7 +461,8 @@ let common = {
     const scrollY = target === document ? window.scrollY || window.pageYOffset : target.scrollTop;
     const viewportHeight = target === document ? window.innerHeight : target.clientHeight;
     const contentHeight = target === document ? document.documentElement.scrollHeight : target.scrollHeight;
-    return contentHeight - (scrollY + viewportHeight) < buffer
+    const condition = contentHeight - (scrollY + viewportHeight) < buffer
+    return {scrollY, condition}
   },
   // 공통 - 스크롤 : 스크롤 방향 감지
   getScrollDirection: function () {
@@ -531,39 +559,6 @@ let common = {
 
       titleEl.style.transform = `translate(${transformed[0]}px, ${transformed[1]}px) scale(${transformed[2]})`;
     }
-  },
-
-
-
-  // 공통 : 숫자 애니메인션 카운터
-  animateCounter: function (counter, targetValue, duration) {
-    if (document.querySelector(counter) == null) return;
-
-    const targetCounter = document.querySelector(counter)
-
-    let startValue = parseInt(targetCounter.innerText === '' ? 0 : targetCounter.innerText);
-    let increment = (targetValue - startValue) / duration;
-
-    // Update counter
-    let startTimestamp;
-
-    function updateCounter(timestamp) {
-      if (!startTimestamp) startTimestamp = timestamp;
-      let elapsedTime = timestamp - startTimestamp;
-
-      if (elapsedTime < duration) {
-        let newValue = Math.round(startValue + increment * elapsedTime);
-
-        targetCounter.textContent = newValue.toLocaleString(); // Use toLocaleString to add commas
-        requestAnimationFrame(updateCounter);
-      } else {
-        // Set the final value as the targetValue
-        targetCounter.textContent = targetValue.toLocaleString();
-      }
-    }
-
-    // Start the animation
-    requestAnimationFrame(updateCounter);
   },
   // 프로필 설정 : 인풋 포커스, 인풋 값 삭제
   inputBorderEvent: function () {
