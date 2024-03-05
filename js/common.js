@@ -405,8 +405,8 @@ let common = {
   toggleClass: function (target, className, parent) {
     parent === undefined ? target.classList.toggle(className) : target.closest(parent).classList.toggle(className);
   },
-  // 클릭한 대상에 class 추가 이벤트(사용된 부분이 없음)
-  siblingsToggleClass: function (targetSelector, childrenSelector, initialIndex, className) {
+  // target add class siblings remove class
+  addClassRemoveSiblings: function (targetSelector, childrenSelector, initialIndex, className) {
     const targetElements = document.querySelectorAll(targetSelector);
 
     targetElements.forEach((targetElement) => {
@@ -436,16 +436,6 @@ let common = {
       });
     }
   },
-
-
-
-
-
-
-
-
-
-
   // 공통 - 스크롤 : 스크롤 엔드 감지 이벤트(대상은 1개만 있을 경우로 작성 되었다)
   scrollEnd: function (target = document, buffer = 100) {
     const targetEl = target === document ? document : document.querySelector(target);
@@ -464,14 +454,24 @@ let common = {
     const condition = contentHeight - (scrollY + viewportHeight) < buffer
     return {scrollY, condition}
   },
+
+
+
+
+
+
+
+
+
+
   // 공통 - 스크롤 : 스크롤 방향 감지
-  getScrollDirection: function () {
-    let prevScrollPos = window.pageYOffset || document.documentElement.scrollTop;
+  getScrollDirection: function (target = document) {
+    const targetEl = target === document ? document : document.querySelector(target);
+    let prevScrollPos = target === document ? window.scrollY || window.pageYOffset : targetEl.scrollTop;
     let scrollDirection;
 
-    window.addEventListener('scroll', () => {
-      const currentScrollPos = window.pageYOffset || document.documentElement.scrollTop;
-
+    targetEl.addEventListener('scroll', (e) => {
+      const currentScrollPos = target === document ? window.scrollY || window.pageYOffset : e.target.scrollTop;
       if (currentScrollPos > prevScrollPos) {
         scrollDirection = 'down';
       } else if (currentScrollPos < prevScrollPos) {
@@ -479,7 +479,6 @@ let common = {
       } else {
         scrollDirection = 'unchanged';
       }
-
       prevScrollPos = currentScrollPos;
     });
 

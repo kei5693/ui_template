@@ -96,7 +96,7 @@
 
       <!-- Number Counter Animation -->
       <div>
-        <h2>common.animateCounter Animation</h2>
+        <h2>Number Counter Animation</h2>
         <h3>동일한 숫자의 경우 무시</h3>
         <div class="btn_grid">
           <button type="button" onClick="animationCounter()">Start</button>
@@ -160,7 +160,7 @@
           <button type="button">6</button>
         </div>
 
-        <h3>class toggle: 자신(init, siblings)</h3>
+        <h3>addClassRemoveSiblings: 자신(init, siblings)</h3>
         <div class="btn3">
           <button type="button">7</button>
           <button type="button">8</button>
@@ -570,25 +570,28 @@
 
   <script src="./js/common.js"></script>
   <script>
+    //
+    const getDirection = common.getScrollDirection('#wrap');
+    document.querySelector('#wrap').addEventListener('scroll', () => {
+      console.log(getDirection());
+    });
+    //
     const scrollTop = document.querySelector('.document.scrollTop span');
     const scrollEnd = document.querySelector('.document.scrollEnd span');
     const elementScrollTop = document.querySelector('.element.scrollTop span');
     const elementScrollEnd = document.querySelector('.element.scrollEnd span');
-
-    common.scrollEnd();
+    common.scrollEnd('#wrap');
     common.scrollEnd('.scroll_box .inner');
+    document.querySelector('#wrap').addEventListener('scroll', (e) => {
+      scrollTop.innerHTML = common.isScrollNearBottom(e.target).scrollY;
+      scrollEnd.innerHTML = common.isScrollNearBottom(e.target).condition;
 
-    document.addEventListener('scroll', (e) => {
-      scrollTop.innerHTML = common.isScrollNearBottom().scrollY;
-      scrollEnd.innerHTML = common.isScrollNearBottom().condition;
-
-      if(common.isScrollNearBottom().condition){
+      if(common.isScrollNearBottom(e.target).condition){
         document.querySelector('body').classList.add('active')
       } else {
         document.querySelector('body').classList.remove('active')
       }
     });
-
     document.querySelector('.scroll_box .inner').addEventListener('scroll', (e) => {
       elementScrollTop.innerHTML = common.isScrollNearBottom(e.target).scrollY;
       elementScrollEnd.innerHTML = common.isScrollNearBottom(e.target).condition;
@@ -616,8 +619,8 @@
         common.toggleClass(e.target, 'active', 'div')
       });
     });
-    common.siblingsToggleClass('#classToggle > .btn3', 'button', 0, 'active')
-    common.siblingsToggleClass('#classToggle > .btn4', 'button', 1, 'active')
+    common.addClassRemoveSiblings('#classToggle > .btn3', 'button', 0, 'active')
+    common.addClassRemoveSiblings('#classToggle > .btn4', 'button', 1, 'active')
     //
     function animationCounter(){
       common.animateCounter('.animation_counter > li:nth-child(1)', 500, 600);
