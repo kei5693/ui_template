@@ -477,17 +477,22 @@ let common = {
       } else if (currentScrollPos < prevScrollPos) {
         scrollDirection = 'up';
       } else {
+        // 동작???
         scrollDirection = 'unchanged';
       }
       prevScrollPos = currentScrollPos;
     });
 
+    targetEl.addEventListener('scrollend', (e) => {
+      console.log(target,': scroll stop');
+    });
+
     return () => scrollDirection;
 
     // 사용 시
-    // const getDirection = common.getScrollDirection();
+    // const getDirection = common.getScrollDirection(); 없으면 document
+    // const getDirection = common.getScrollDirection('#wrap'); 대상 지정
     // window.addEventListener('scroll', () => {
-    //   const currentScrollPos = window.pageYOffset || document.documentElement.scrollTop;
     //   console.log(getDirection());
     // });
   },

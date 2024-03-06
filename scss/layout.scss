@@ -116,4 +116,23 @@ html, body, #wrap {
       overflow: auto;
     }
   }
+  #scrollDirection {
+    position: fixed;
+    bottom: 100px;
+    right: 20px;
+
+    border: 1px solid #000;
+    background: #fff;
+    min-width: 50px;
+    padding: 5px 0;
+    text-align: center;
+    p {
+      font-size: 14px;
+      font-weight: 700;
+      color: #000;
+    }
+    span {
+      display: block;
+    }
+  }
 }

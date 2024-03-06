@@ -101,3 +101,21 @@ html, body, #wrap {
   height: 100%;
   overflow: auto;
 }
+#wrap #scrollDirection {
+  position: fixed;
+  bottom: 100px;
+  right: 20px;
+  border: 1px solid #000;
+  background: #fff;
+  min-width: 50px;
+  padding: 5px 0;
+  text-align: center;
+}
+#wrap #scrollDirection p {
+  font-size: 14px;
+  font-weight: 700;
+  color: #000;
+}
+#wrap #scrollDirection span {
+  display: block;
+}
