@@ -309,7 +309,7 @@ let common = {
   },
   // 애니메이션 카운트다운
   animationCount: function (value = 3) {
-    const aniCount = document.querySelector('.animation_count');
+    const aniCount = document.querySelector('.animation_count_down');
     if (!aniCount) return;
 
     const aniNumber = aniCount.querySelector(':scope > p');
